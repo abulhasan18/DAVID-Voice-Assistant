@@ -1,0 +1,417 @@
+#                                                         D.A.V.I.D
+
+
+
+from ast import Break
+from asyncio import subprocess
+from calendar import month, month_abbr
+from inspect import walktree
+from posixpath import split
+from time import time
+import pyttsx3
+import speech_recognition as sr
+import datetime
+import wikipedia
+import webbrowser
+import os
+import ctypes
+import winshell
+import random
+from gtts import gTTS
+import requests
+import json
+import requests
+import pywhatkit as kit
+from twilio.rest import Client
+import wolframalpha
+from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5.QtCore import QTimer, QTime, QDate, Qt
+from PyQt5.QtGui import QMovie
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.uic import loadUiType
+
+
+
+
+
+
+
+#                                                   [   FUNCTIONS   ]
+
+engine = pyttsx3.init("sapi5")
+voices = engine.getProperty("voices")
+#   print(voices[0].id)
+engine.setProperty("voices", voices[0].id)
+
+def speak(audio):
+    engine.say(audio)
+    engine.runAndWait()
+
+    
+def takecommand():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Listening...")
+        r.pause_threshold = 1
+        audio = r.listen(source)
+        
+    try:
+        print("Recogizing...")
+        query = r.recognize_google(audio, language= 'en-in')
+        print(f"user said: {query}\n")
+
+
+    except Exception as e:
+        #print(e)
+        print("say that again")
+        return "None"
+    return query
+
+
+def wishme():
+    hour = int(datetime.datetime.now().hour)
+    if  hour>= 0 and hour <=12:
+        speak("Good morning sir")
+    elif hour>=12 and hour<18:
+        speak("Good afternoon sir")
+    else:
+        speak("Good evening sir")
+
+    speak("HOW MAY I HELP YOU!")
+
+
+def speakdate(month):
+        
+    if month == 1:
+                Month = "january"
+    elif month == 2:
+                Month = "february"
+    elif month == 3:
+                Month = "march"
+    elif month == 4:
+                Month = "april"
+    elif month == 5:
+                Month = "may"
+    elif month == 6:
+                Month = "june"
+    elif month == 7:
+                Month = "july"
+    elif month == 8:
+                Month = "august"
+    elif month == 9:
+                Month = "september"
+    elif month == 10:
+                Month = "october"
+    elif month == 11:
+                Month = "november"
+    else:
+                Month = "december"
+        
+    speak(f"today is {date} {Month} {year}")
+    print(f"today is {date} {month} {year}")
+
+
+
+#def notes(query):
+#    date = datetime.datetime.now()
+#    file_name = str(date).replace(":", "-") + "-note.txt"
+#    with open(file_name, "w") as f:
+#        f.write(query)
+#    
+#    subprocess.Popen(["notepad.exe", file_name])
+
+
+def telljokes():
+    r = random.randint(1,5)
+    
+    if r == 1:
+        speak("When life gives you melons, you might be dyslexic.") 
+        print("When life gives you melons, you might be dyslexic.")
+
+    elif r ==2:
+        speak("Never trust atoms; they make up everything.")
+        print("Never trust atoms; they make up everything.")
+
+    elif r ==3:
+        speak(" Russian dolls are so full of themselves.")
+        print(" Russian dolls are so full of themselves.")
+
+    elif r == 4:
+        print("A termite walks into the bar and asks, ‘Is the bar tender here?’")
+        speak("A termite walks into the bar and asks, ‘Is the bar tender here?’")
+
+    elif r == 5:
+        speak(" I do not suffer from insanity—I enjoy every minute of it.")
+        print(" I do not suffer from insanity—I enjoy every minute of it.")
+
+    elif r == 6:
+        speak("Atheism is a non-prophet organization.")
+        print("Atheism is a non-prophet organization.")
+
+    elif r == 7:
+        speak("Last night my girlfriend was complaining that I never listen to her… or something like that.")
+        print("Last night my girlfriend was complaining that I never listen to her… or something like that.")
+
+
+    takecommand()
+
+
+
+
+
+a = 1
+b = 1
+c = 1
+
+#                                                                  [    MAIN    ]
+
+if __name__ == "__main__":
+
+
+
+        
+
+
+
+
+
+    if a == 1:
+        wake_query = takecommand().lower()
+        if 'david' in wake_query:
+            wishme()
+
+
+    
+
+    
+    if b == 1:
+
+        query = takecommand().lower()
+
+        
+
+
+         #                                                    [    logics for excecuting task based on query   ]
+
+        if "who are you" in query:
+                speak("i am David, created by mister Abul Hasan")
+                print("i am David, created by mister Abul Hasan")   
+
+
+        elif "what can you do" in query:
+                speak("i am your assistant, i will do anything you may ask") 
+                print("i am your assistant, i will do anything you may ask")
+
+
+        elif "how are you" in query:
+                speak("very well sir, how about you")
+                print("very well sir, how about you")
+
+
+
+        elif 'wikipedia' in query:
+                speak("Searching in wikipedia...")
+                query = query.replace("wikipedia", "")
+                results = wikipedia.summary(query, sentences=2)
+                speak("According to wikipedia")
+                print(results)
+                speak(results)
+        
+
+
+        elif 'open youtube' in query:
+                webbrowser.open("youtube.com")
+                print("opening youtube")
+                speak("opening youtube")
+
+
+
+        elif 'youtube' in query:
+              ind = query.split().index("youtube")
+              search_1 = query.split()[ind + 1:]
+              webbrowser.open("http://www.youtube.com/results?search_query=" + "+".join(search_1))
+              sh = str(search_1)
+              print(f"searching {sh} on youtube")   
+              speak(f"searching {sh} on youtube")   
+
+
+
+        elif 'google' in query:
+              #  webbrowser.open("google.com")
+                ind = query.split().index("google")
+                search_2 = query.split()[ind + 1]
+                webbrowser.open("http://www.google.com/search?q=" + "+".join(search_2))
+
+            
+        elif "send whatsapp message" in query:
+                kit.sendwhatmsg("")
+
+
+
+
+
+
+
+
+
+
+
+        elif 'open stackoverdlow' in query:
+                webbrowser.open("stackoverflow.com")
+
+
+        elif 'time' in query:
+                strtime = datetime.datetime.now().strftime("%H:%M:%S")
+                speak(f"the time is {strtime}")
+
+
+        elif 'date' in query:
+                year = (datetime.datetime.now().year)
+                month = (datetime.datetime.now().month)
+                date = (datetime.datetime.now().day)   
+                speakdate(month)
+
+
+
+        elif "open word" in query or "open world" in query:
+                speak("opening microsoft word")
+                os.startfile(r"C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE")
+
+        elif "open excel" in query:
+                speak("opening Microsoft excel")
+                os.startfile(r"C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE")
+
+        elif "change wallpaper" in query:
+                img = r"C:\Users\abulh\Videos\wallpapers"
+                list_img = os.listdir(img)
+                imgchoice = random.choice(list_img)
+                random_img = os.path.join(img, imgchoice)
+                ctypes.windll.user32.SystemParametersInfoW(20, 0, random_img, 0)
+                speak("wallpaper changed succesfully")
+
+
+    
+        elif "empty recycle bin" in query:
+                winshell.recycle_bin().empty(confirm = True, show_progress= False, sound= True)
+                speak("bin emptied")
+
+        elif "joke" in query or "jokes" in query:
+                telljokes()
+
+    
+        elif "where is" in query:
+                ind = query.split().index("is")
+                location = query.split()[ind + 1:]
+                url = "https://www.googlemaps.com/maps/place/" + "".join(location)
+                speak("opening map")
+                webbrowser.open(url)
+
+        elif "weather" in query:
+                key = "c8c31f12dbc498ba6c94bc59dc999b3d"
+                weather_url = "https://api.openweathermap.org/data/2.5/weather?"         
+                ind = query.split().index("in")
+                location = query.split()[ind + 1:]
+                location = "".join(location)
+                url = weather_url + "appid=" + key + "&q=" + location
+                js = requests.get(url).json()
+
+                if js["cod"] != "404":                 
+                    weather = js["main"]
+                    temperature = weather["temp"]
+                    temperature = temperature - 273.15
+                    humidity = weather["humidity"]
+                    desc = js["weather"][0]["description"]
+                    weather_response = "the temperature is " + str(temperature) +" degree celcius, humidity is " + str(humidity) + " & the weather description is" + str(desc)
+                    speak(weather_response)
+                else:
+                    speak("place not found")
+
+
+        elif "open notepad" in query:
+                pass
+
+
+
+        elif "ip address" in query:
+                pass
+
+
+        elif "sleep" in query:
+                os.system("rundll32.exe powrprof.dil,SetSuspendState 0,1,0")
+                speak("system going in sleep mode")
+
+
+
+                
+
+
+        elif "news" in query:
+    
+                url = ("https://newsapi.org/v2/top-headlines?country=in&apiKey=acc8f0b4e11440bc89f9f5ecbf77a839")
+                
+                try:
+                    response = requests.get(url)
+                
+                except:
+                    speak("please check your internet connection")
+
+                news = json.loads(response.text)
+
+                i= 0
+                
+                for new in news["articles"]:
+                    print(str(new["title"]), "\n")
+                    speak(str(new["title"]))
+                    engine.runAndWait()
+
+                    print(str(new["description"]), "\n")
+                    speak(str(new["description"]))
+                    engine.runAndWait()
+                    comm = takecommand().lower()
+                    if 'stop' in comm:
+                        break    
+                
+
+                            
+        elif "send message" in query:
+                acc_sid = "ACe801d43d7497a3cf22b312830e19cc6e"
+                auth_token = "4d7ee28e69e7c76fc541669a36ece512"
+                client = Client(acc_sid, auth_token)
+
+                speak("what should i send?")
+                print("what should i send?")
+                message = client.messages.create( body= takecommand(), from_= "+16073648853", to="+919260920129")
+                print(message)
+                speak("message sent")
+
+
+        elif "calculate" in query:
+                app_id = "RKJA5V-92RA2584R6"
+                client = wolframalpha.Client(app_id)
+                ind = query.lower().split().index("calculate")
+                query = query.split()[ind + 1:]
+                res = client.query(" ".join(query))
+                ans = next(res.results).text
+                speak(f"the answer is {ans}")
+                print(f"the answer is {ans}")
+
+
+        elif "what is" or "who is" in query:
+                 app_id = "RKJA5V-92RA2584R6"
+                 client = wolframalpha.Client(app_id)
+                 index = query.lower().split().index("is")
+                 query = query.split()[index + 1:]
+                 res = client.query(" ".join(query))
+                 ans = next(res.results).text
+                 speak(f"the answer is {ans}")
+                 print(f"the answer is {ans}")
+
+            
+
+
+        elif 'thank you' in  query:
+                speak("going offline")
+                b = 0
+                print("Going offline")    
